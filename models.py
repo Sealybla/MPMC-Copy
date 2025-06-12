@@ -139,7 +139,7 @@ class MPMC_net(nn.Module):
         sum2 = torch.sum(product, dim=(1, 2))
         two_div_N = 2. / N
         
-        out = math.pow(12., -dim) - two_div_N * sum1 + 1. / math.pow(N, 2.) * sum2
+        out = torch.sqrt(math.pow(12., -dim) - two_div_N * sum1 + 1. / math.pow(N, 2.) * sum2)
         return out
     
     def L2ext(self, x):
@@ -154,7 +154,7 @@ class MPMC_net(nn.Module):
         product = torch.prod(prod2, dim = 3)
         sum2 = torch.sum(product, dim = (1,2))
 
-        out = math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2
+        out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
         return out
     
     def L2per(self, x):
@@ -165,7 +165,7 @@ class MPMC_net(nn.Module):
         product = torch.prod(prod2, dim = 3)
         sum2 = torch.sum(product, dim = (1,2))
 
-        out = - math.pow(3., -dim) + math.pow(N, - 2.) * sum2
+        out = torch.sqrt(- math.pow(3., -dim) + math.pow(N, - 2.) * sum2)
         return out
     
     def L2sym(self, x): 
@@ -180,7 +180,7 @@ class MPMC_net(nn.Module):
         product = torch.prod(prod2, dim = 3)
         sum2 = torch.sum(product, dim = (1,2))
 
-        out = math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2
+        out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
         return out
     
     

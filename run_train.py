@@ -78,20 +78,11 @@ def train(args):
                 break
             
 
-# def temp():
-#     model = MPMC_net(dim=3, nhid=64, nlayers=2, nsamples=100, nbatch=8,
-#                  radius=0.3, loss_fn='L2', dim_emphasize=[1, 2], n_projections=10)
-    
-#     print(model.returnx().shape)
-
-
-
-# 
 
 if __name__ == '__main__':
 
-    for N in tqdm([32, 64], desc = 'Sample Sizes'):
-        for nh in tqdm([64], desc = "Hidden Units", leave = False):
+    for N in tqdm([32, 64,], desc = 'Sample Sizes'):
+        for nh in tqdm([32, 64], desc = "Hidden Units", leave = False):
             for l in tqdm(['L2cen', 'L2ext', 'L2per','L2sym'], desc = "Loss Fn", leave = False):
                 args = {
                     'lr': 0.001,                  # learning rate
