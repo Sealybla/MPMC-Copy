@@ -4,6 +4,8 @@ from torch import nn
 from torch_cluster import radius_graph
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 from torch_geometric.nn import MessagePassing, InstanceNorm
+import numpy as np
+from itertools import product 
 
 class MPNN_layer(MessagePassing):
     def __init__(self, ninp, nhid):
@@ -202,6 +204,32 @@ class MPMC_net(nn.Module):
         out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
         return out
     
+
+    def Linfextr(self, x):
+        N = x.size(1)
+        dim = x.size(2)
+        out = 0.0
+
+        #For all axis-aligned boxes (iterate over both bottom left and top right)
+        #calculate fraction of points inside box, volume of box
+        #take largest difference 
+
+        for lower in product(*x): #iterates over all points
+            for upper in product(*x): 
+                lower = torch.tensor(lower, device = x.device)
+                upper = torch.tensor(upper, device = x.device)
+
+                if torch.any(lower >= upper): 
+                    continue
+                in_box = torch.all((x >= lower) & (x <= upper), dim = 1)
+                count = in_box.sum().float()
+                empirical = count/N
+                #volume
+                volume = np.prod(upper - lower)
+                out = torch.max(out, torch.abs(empirical - volume))
+
+
+        return out
     
     def forward(self):
         X = self.x
@@ -214,3 +242,6 @@ class MPMC_net(nn.Module):
         X = X.view(self.nbatch, self.nsamples, self.dim)
         loss = torch.mean(self.loss_fn(X))
         return loss, X
+    
+
+    

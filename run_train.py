@@ -81,9 +81,9 @@ def train(args):
 
 if __name__ == '__main__':
 
-    for N in tqdm([128], desc = 'Sample Sizes'):
-        for nh in tqdm([32, 64], desc = "Hidden Units", leave = False):
-            for l in tqdm(['L2dis'], desc = "Loss Fn", leave = False):
+    for N in tqdm([256], desc = 'Sample Sizes'):
+        for nh in tqdm([32], desc = "Hidden Units", leave = False):
+            for l in tqdm(['L2dis', 'L2cen', 'L2ext'], desc = "Loss Fn", leave = False):
                 args = {
                     'lr': 0.001,                  # learning rate
                     'nlayers': 3,                 # number of GNN layers
