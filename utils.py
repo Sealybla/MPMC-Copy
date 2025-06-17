@@ -105,30 +105,3 @@ def L2sym(x):
 
     out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
-
-
-def Linfextr(x):
-        N = x.size(0)
-        dim = x.size(1)
-        out = 0.0
-
-        #For all axis-aligned boxes (iterate over both bottom left and top right)
-        #calculate fraction of points inside box, volume of box
-        #take largest difference 
-
-        for lower in product(*x): #iterates over all points
-            for upper in product(*x): 
-                lower = torch.tensor(lower, device = x.device)
-                upper = torch.tensor(upper, device = x.device)
-
-                if torch.any(lower >= upper): 
-                    continue
-                in_box = torch.all((x >= lower) & (x <= upper), dim = 1)
-                count = in_box.sum().float()
-                empirical = count/N
-                #volume
-                volume = np.prod(upper - lower)
-                out = torch.max(out, torch.abs(empirical - volume))
-
-
-        return out
