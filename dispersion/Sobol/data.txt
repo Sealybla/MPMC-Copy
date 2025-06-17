@@ -1,0 +1,24 @@
+nsamples: (8)
+Dispersion: 0.3125
+Box: (array([0.25, 0.5 ]), array([0.875, 1.   ]))
+
+nsamples: (16)
+Dispersion: 0.19140625
+Box: (array([0.25  , 0.5625]), array([0.6875, 1.    ]))
+
+nsamples: (256)
+Dispersion: 0.0180511474609375
+Box: (array([0.3203125 , 0.56640625]), array([0.67578125, 0.6171875 ]))
+
+nsamples: (32)
+Dispersion: 0.107421875
+Box: (array([0.125, 0.375]), array([0.4375 , 0.71875]))
+
+nsamples: (64)
+Dispersion: 0.05615234375
+Box: (array([0.203125, 0.578125]), array([0.921875, 0.65625 ]))
+
+nsamples: (128)
+Dispersion: 0.0316162109375
+Box: (array([0.03125  , 0.3515625]), array([0.0859375, 0.9296875]))
+
