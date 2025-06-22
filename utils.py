@@ -105,3 +105,18 @@ def L2sym(x):
 
     out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
+
+def L2mix(x):
+     N = x.size(1)
+     dim = x.size(2)
+     prod1 = 2/3 - 1/4 * (torch.abs(x - 1/2)) - 1/4 * ((x - 1/2)**2)
+     prod1 = torch.prod(prod1, dim = 2)
+     sum1 = torch.sum(prod1, dim = 1)
+
+     prod2 = 7/8 - 1/4 * torch.abs(x[: ,: ,None ,: ] - 1/2) - 1/4 * torch.abs(x[:, None, :, :] - 1/2) - 3/4*torch.abs(x[: ,: ,None ,: ] - x[:, None, :, :]) + 1/2 * math.pow(x[: ,: ,None ,: ] - x[:, None, :, :], 2)
+     product = torch.prod(prod2, dim = 3)
+     sum2 = torch.sum(product, dim = (1,2))
+
+
+     out = torch.sqrt(math.pow(7./12., dim) - (2. / N) * sum1 + math.pow(N, -2.) * sum2)
+     return out
