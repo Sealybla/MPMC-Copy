@@ -4,7 +4,7 @@ import torch.optim as optim
 import numpy as np
 from pathlib import Path
 import argparse
-from utils import L2discrepancy, hickernell_all_emphasized, L2center, L2ext, L2per, L2sym
+from utils import L2discrepancy, hickernell_all_emphasized, L2center, L2ext, L2per, L2sym, L2mix
 from types import SimpleNamespace
 from tqdm import tqdm 
 
@@ -44,6 +44,8 @@ def train(args):
                 batched_discrepancies = L2per(y.detach())
             elif args.loss_fn == 'L2sym':
                 batched_discrepancies = L2sym(y.detach())
+            elif args.loss_fn == 'L2mix':
+                batched_discrepancies = L2mix(y.detach())
             elif args.loss_fn == 'approx_hickernell':
                 ## compute sum over all projections with emphasized dimensionality:
                 batched_discrepancies = hickernell_all_emphasized(y.detach(),args.dim_emphasize)
@@ -83,7 +85,7 @@ if __name__ == '__main__':
 
     for N in tqdm([10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120], desc = 'Sample Sizes'):
         for nh in tqdm([32], desc = "Hidden Units", leave = False):
-            for l in tqdm(['L2dis'], desc = "Loss Fn", leave = False):
+            for l in tqdm(['L2mix'], desc = "Loss Fn", leave = False):
                 args = {
                     'lr': 0.001,                  # learning rate
                     'nlayers': 3,                 # number of GNN layers

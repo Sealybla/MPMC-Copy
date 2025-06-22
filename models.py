@@ -76,6 +76,8 @@ class MPMC_net(nn.Module):
             self.loss_fn = self.L2per
         elif loss_fn == 'L2sym':
             self.loss_fn = self.L2sym
+        elif loss_fn == 'L2mix':
+            self.loss_fn = self.L2mix
         elif loss_fn == 'approx_hickernell':
             if dim_emphasize != None:
                 assert torch.max(self.dim_emphasize) <= dim
@@ -202,19 +204,18 @@ class MPMC_net(nn.Module):
         out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
         return out
     
-    def L2mix(x):
+    def L2mix(self, x):
      N = x.size(1)
      dim = x.size(2)
      prod1 = 2/3 - 1/4 * (torch.abs(x - 1/2)) - 1/4 * ((x - 1/2)**2)
      prod1 = torch.prod(prod1, dim = 2)
      sum1 = torch.sum(prod1, dim = 1)
 
-     prod2 = 7/8 - 1/4 * torch.abs(x[: ,: ,None ,: ] - 1/2) - 1/4 * torch.abs(x[:, None, :, :] - 1/2) - 3/4*torch.abs(x[: ,: ,None ,: ] - x[:, None, :, :]) + 1/2 * math.pow(x[: ,: ,None ,: ] - x[:, None, :, :], 2)
+     prod2 = 7/8 - 1/4 * torch.abs(x[: ,: ,None ,: ] - 1/2) - 1/4 * torch.abs(x[:, None, :, :] - 1/2) - 3/4*torch.abs(x[: ,: ,None ,: ] - x[:, None, :, :]) + 1/2 * torch.pow(x[: ,: ,None ,: ] - x[:, None, :, :], 2)
      product = torch.prod(prod2, dim = 3)
      sum2 = torch.sum(product, dim = (1,2))
 
-
-     out = torch.sqrt(math.pow(7./12., dim) - (2. / N) * sum1 + math.pow(N, -2.) * sum2)
+     out = torch.sqrt(torch.pow(7./12., dim) - (2. / N) * sum1 + torch.pow(N, -2.) * sum2)
      return out
     
     def forward(self):
