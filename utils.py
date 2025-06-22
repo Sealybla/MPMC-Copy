@@ -113,10 +113,10 @@ def L2mix(x):
      prod1 = torch.prod(prod1, dim = 2)
      sum1 = torch.sum(prod1, dim = 1)
 
-     prod2 = 7/8 - 1/4 * torch.abs(x[: ,: ,None ,: ] - 1/2) - 1/4 * torch.abs(x[:, None, :, :] - 1/2) - 3/4*torch.abs(x[: ,: ,None ,: ] - x[:, None, :, :]) + 1/2 * torch.pow(x[: ,: ,None ,: ] - x[:, None, :, :], 2)
+     prod2 = 7/8 - 1/4 * torch.abs(x[: ,: ,None ,: ] - 1/2) - 1/4 * torch.abs(x[:, None, :, :] - 1/2) - 3/4*torch.abs(x[: ,: ,None ,: ] - x[:, None, :, :]) + 1/2 * math.pow(x[: ,: ,None ,: ] - x[:, None, :, :], 2)
      product = torch.prod(prod2, dim = 3)
      sum2 = torch.sum(product, dim = (1,2))
 
 
-     out = torch.sqrt(torch.pow(7./12., dim) - (2. / N) * sum1 + torch.pow(N, -2.) * sum2)
+     out = torch.sqrt(math.pow(7./12., dim) - (2. / N) * sum1 + math.pow(N, -2.) * sum2)
      return out
