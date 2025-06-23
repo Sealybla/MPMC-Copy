@@ -106,6 +106,33 @@ def L2sym(x):
     out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
 
+def L2avgs (x):
+    N = x.size(1)
+    dim = x.size(2)
+
+    #Term 1: (1/3) ^ d
+    term1 = (1 / 3) ** dim
+
+    # Term 2: -2/n * sum_i ∏_j (1 + 2x_ij + 2x_ij ^ 2) / 4
+    sum1 = 2. * x - 2. * x**2
+    sum2 = 1.0 + sum1 
+    prod1 = sum2 / 4.
+    prod2 = torch.prod(prod1, dim=2)
+    sum2 = torch.sum(prod2, dim=1)
+    term2 = -(2.0 / N) * sum2
+
+    # Term 3: 1/(n^2) * sum_i sum_j ∏_k (1 -|x_ik - xj-jk|/2)
+    x_i = x.unsqueeze(2) 
+    x_j = x.unsqueeze(1) 
+    sum3 = torch.abs(x_i - x_j)
+    prod3 = torch.prod( (1.0 - sum3) / 2.0, dim=3)
+    term3_sum = torch.sum(prod3, dim=(1, 2))
+    term3 = (1.0 / (N * N)) * term3_sum
+    
+    out = torch.sqrt(term1+ term2 + term3)
+    return out
+
+
 def L2mix(x):
      N = x.size(1)
      dim = x.size(2)
