@@ -83,7 +83,7 @@ def train(args):
 
 if __name__ == '__main__':
 
-    for N in tqdm([16, 32, 64, 128, 256], desc = 'Sample Sizes'):
+    for N in tqdm([10,20,30,40,50,60,70,80,90,100,110,120], desc = 'Sample Sizes'):
         for nh in tqdm([32], desc = "Hidden Units", leave = False):
             for l in tqdm(['L2cen'], desc = "Loss Fn", leave = False):
                 args = {
