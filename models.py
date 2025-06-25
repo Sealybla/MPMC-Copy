@@ -132,33 +132,32 @@ class MPMC_net(nn.Module):
         n = x.size(1)
         dim = x.size(2)
 
-        # Term 1: (13/12)^d
-        term1 = (13.0 / 12.0) ** dim
+            # Term 1: (1/12)^d
+        term1 = (1.0 / 12.0) ** dim
 
-        # Term 2: -2/n * sum_i ∏_j (1 + 0.5|x_ij - 0.5| - 0.5|x_ij - 0.5|^2)
+            # Term 2: -2/n * sum_i ∏_j (0.5|x_ij - 0.5| - 0.5|x_ij - 0.5|^2)
         sum1 = torch.abs(x - 0.5)
-        prod1 = 1.0 + 0.5 * sum1 - 0.5 * (sum1 ** 2)
+        prod1 = 0.5 * sum1 - 0.5 * (sum1 ** 2)
         prod2 = torch.prod(prod1, dim=2)
         sum2 = torch.sum(prod2, dim=1)
         term2 = -(2.0 / n) * sum2
 
-        # Term 3: 1/(n^2) * sum_{i,j} ∏_k (1 + 0.5|x_ik - 0.5| + 0.5|x_jk - 0.5| - 0.5|x_ik - x_jk|)
+            # Term 3: 1/(n^2) * sum_{i,j} ∏_k (0.5|x_ik - 0.5| + 0.5|x_jk - 0.5| - 0.5|x_ik - x_jk|)
         x_i = x.unsqueeze(2)
         x_j = x.unsqueeze(1)
         prod3 = (
-            1.0
-            + 0.5 * torch.abs(x_i - 0.5)
+            0.5 * torch.abs(x_i - 0.5)
             + 0.5 * torch.abs(x_j - 0.5)
             - 0.5 * torch.abs(x_i - x_j)
-        )
+            )
         prod4 = torch.prod(prod3, dim=3)
         sum3 = torch.sum(prod4, dim=(1, 2))
         term3 = (1.0 / (n * n)) * sum3
 
-        # Combine terms for squared discrepancy
+            # Combine terms for squared discrepancy
         squared_discrepancy = term1 + term2 + term3
 
-        # Return L2 discrepancy (square root of squared discrepancy)
+            # Return L2 discrepancy (square root of squared discrepancy)
         out = torch.sqrt(squared_discrepancy)
         return out
         
