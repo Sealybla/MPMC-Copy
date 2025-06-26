@@ -22,8 +22,8 @@ data = np.load(r'D:\work\Research\IITSURE\coding\MPMC\outputs\dim_2\nsamples_16\
 
 #calculate dispersion:
  
-losses = ['LfL2ext', 'LfL2sym']
-configs = [[256,32]]
+losses = ['LfL2cen']
+configs = [[16, 32], [32, 32], [64,32], [128,32], [256,32]]
 for loss in losses:
     for nsamples, nhid in configs:
         path = fr'D:\work\Research\IITSURE\coding\MPMC_Copy\outputs\dim_2\nsamples_{nsamples}\nhid_{nhid}\{loss}.npy'
