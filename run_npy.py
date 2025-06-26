@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import torch 
 from dispersion import dispersion
 from pathlib import Path
-from qmcpy import Sobol
+#from qmcpy import Sobol
 
 
 #change path 
@@ -22,11 +22,13 @@ data = np.load(r'D:\work\Research\IITSURE\coding\MPMC\outputs\dim_2\nsamples_16\
 
 #calculate dispersion:
  
-losses = ['LfL2cen']
-configs = [[16, 32], [32, 32], [64,32], [128,32], [256,32]]
+
+#/Users/alk/Documents/GitHub/MPMC-Copy/outputs/dim_2
+losses = ['LfL2mix']
+configs = [[16,32], [32,32], [64,32], [128,32], [256,32]]
 for loss in losses:
     for nsamples, nhid in configs:
-        path = fr'D:\work\Research\IITSURE\coding\MPMC_Copy\outputs\dim_2\nsamples_{nsamples}\nhid_{nhid}\{loss}.npy'
+        path = fr'D:\work\Research\IITSURE\Coding\MPMC-Copy/outputs/dim_2/nsamples_{nsamples}/nhid_{nhid}/{loss}.npy'
         data = np.load(path)
         Path('dispersion/data').mkdir(parents=True, exist_ok=True)
         Path('dispersion/pics').mkdir(parents=True, exist_ok=True)
