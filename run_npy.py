@@ -28,7 +28,7 @@ losses = ['LfL2mix']
 configs = [[16,32], [32,32], [64,32], [128,32], [256,32]]
 for loss in losses:
     for nsamples, nhid in configs:
-        path = fr'D:\work\Research\IITSURE\Coding\MPMC-Copy/outputs/dim_2/nsamples_{nsamples}/nhid_{nhid}/{loss}.npy'
+        path = fr'D:\work\Research\IITSURE\coding\MPMC_Copy\outputs\dim_2\nsamples_{nsamples}\nhid_{nhid}\{loss}.npy'
         data = np.load(path)
         Path('dispersion/data').mkdir(parents=True, exist_ok=True)
         Path('dispersion/pics').mkdir(parents=True, exist_ok=True)
