@@ -46,7 +46,6 @@ def train(args):
 
             if min_discrepancy < best_loss:
                 best_loss = min_discrepancy
-                best_loss = min_discrepancy
                 f = open('results/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+'/nhid_'+str(args.nhid) + '/Lf'+str(args.loss_fn) + '.txt', 'a')
                 f.write(str(best_loss) + '\n')
                 f.close()
@@ -75,9 +74,10 @@ if __name__ == '__main__':
     #me: 'L2dis_weighted', 'L2ctr_weighted', 'L2ext_weighted'
     #you/Lijia: 'L2per_weighted', 'L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted'
 
-    loss_functions = ['L2dis_weighted', 'L2ctr_weighted', 'L2ext_weighted']
+    # loss_functions = ['L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted']
+    loss_functions = ['L2dis_weighted']
 
-    for N in tqdm([8, 16, 32, 64, 128, 256], desc='Sample Sizes'):
+    for N in tqdm([16, 32, 64, 128, 256], desc='Sample Sizes'):
         for nh in tqdm([32], desc="Hidden Units", leave=False):
             for l in tqdm(loss_functions, desc="Loss Fn", leave=False):
                 dim = 52

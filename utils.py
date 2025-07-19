@@ -27,7 +27,7 @@ def L2dis_weighted(x, gamma):
     N = x.size(1) 
     dim = x.size(2)
 
-    p1 = torch.prod(1 + gamma/3, dim = 0)
+    p1 = torch.prod(1 + gamma/3)
     prod1 = 1 + (gamma[None, None, :]/2)*(1. - x ** 2.)
     prod1 = torch.prod(prod1, dim=2) #multiplying across second dimenstion of x (dim)
     sum1 = torch.sum(prod1, dim=1) #summing across second dimension of x (number of points in each batch)
@@ -36,10 +36,9 @@ def L2dis_weighted(x, gamma):
     product = torch.prod(1 + gamma[None, None, None, :]*(1- pairwise_max), dim=3)
     sum2 = torch.sum(product, dim=(1, 2))
 
-    one_dive_N = 1. / N
     out = torch.sqrt(
         p1
-        - one_dive_N * math.pow(2., 1. - dim) * sum1 
+        - 2./N * math.pow(2., 1. - dim) * sum1 
         + 1. / math.pow(N, 2.) * sum2)
     
     return out
