@@ -38,7 +38,7 @@ def L2dis_weighted(x, gamma):
 
     out = torch.sqrt(
         p1
-        - 2./N * math.pow(2., 1. - dim) * sum1 
+        - 2./N * sum1 
         + 1. / math.pow(N, 2.) * sum2)
     
     return out
@@ -216,12 +216,11 @@ def L2ags_weighted (x, gamma):
     N = x.size(1)
     dim = x.size(2)
 
-    term1 = torch.prod(1.0 + gamma**2 / 3.0)
+    term1 = torch.prod(1.0 + gamma/ 3.0)
 
     g_term2 = gamma.view(1, 1, dim)
-    sum1 = g_term2 * (2. * x - 2. * x**2)
-    sum2 = 1.0 + sum1
-    prod1 = sum2 / 4. 
+    sum1 = g_term2 * (1 + 2. * x - 2. * x**2)
+    prod1 = 1 + sum1 / 4. 
     prod2 = torch.prod(prod1, dim=2)
     sum_prod2 = torch.sum(prod2, dim=1)
     term2 = -(2. / N) * sum_prod2
@@ -229,8 +228,8 @@ def L2ags_weighted (x, gamma):
     x_i = x.unsqueeze(2)
     x_j = x.unsqueeze(1)
     g_term3 = gamma.view(1, 1, 1, dim)   # need to reshape?
-    sum3 = g_term3 * torch.abs(x_i - x_j)
-    prod3 = torch.prod((1. - sum3) / 2., dim=3)
+    sum3 = g_term3 * (1 - torch.abs(x_i - x_j))
+    prod3 = torch.prod(1 + sum3/ 2., dim=3)
     term3_sum = torch.sum(prod3, dim=(1, 2))
     term3 = (1. / (N * N)) * term3_sum
 
