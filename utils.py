@@ -262,9 +262,10 @@ def L2mix_weighted(x, gamma):
     N = x.size(1)
     dim = x.size(2)
 
-    term1_val = torch.prod(1.0 + gamma / 12.0)
+    term1_val = torch.prod(1.0 + 7 * gamma / 12.0)
+
     gamma_r = gamma.view(1, 1, dim)
-    inner_sum1 = 1.0 + gamma_r * (1./3. - 0.25 * torch.abs(x - 0.5) - 0.25 * (x - 0.5)**2)
+    inner_sum1 = 1.0 + gamma_r * (2./3. - 0.25 * torch.abs(x - 0.5) - 0.25 * (x - 0.5)**2)
     prod1 = torch.prod(inner_sum1, dim=2)
     sum1 = torch.sum(prod1, dim=1)
     term2_val = (2.0 / N) * sum1
