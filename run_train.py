@@ -32,11 +32,9 @@ def train(args):
 
         if epoch % 100 == 0:
             y = X.clone().detach()
-            
-            # Get the same loss function used for training
             loss_func = globals()[args.loss_fn]
 
-            # Check if the function is weighted and pass the weights if it is
+            #  take out of loop!!!
             if 'weighted' in args.loss_fn:
                 batched_discrepancies = loss_func(y, args.weights)
             else:
@@ -74,8 +72,7 @@ if __name__ == '__main__':
     #me: 'L2dis_weighted', 'L2ctr_weighted', 'L2ext_weighted'
     #you/Lijia: 'L2per_weighted', 'L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted'
 
-    loss_functions = ['L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted']
-    # loss_functions = ['L2mix_weighted']
+    loss_functions = ['L2dis_weighted', 'L2ctr_weighted', 'L2ext_weighted']
 
     for N in tqdm([16, 32, 64, 128, 256], desc='Sample Sizes'):
         for nh in tqdm([32], desc="Hidden Units", leave=False):
