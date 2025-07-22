@@ -60,7 +60,7 @@ def L2ctr(x):
     sum2 = torch.sum(product, dim=(1, 2))
     two_div_N = 2. / N
     
-    out = math.pow(12., -dim) - two_div_N * sum1 + 1. / math.pow(N, 2.) * sum2
+    out = torch.sqrt(math.pow(12., -dim) - two_div_N * sum1 + 1. / math.pow(N, 2.) * sum2)
     return out
 
 
@@ -102,7 +102,7 @@ def L2ext(x):
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
-    out = math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2
+    out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
 
 
@@ -120,7 +120,7 @@ def L2ext_weighted(x, gamma):
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
-    out = p1 - (2. / N) * sum1 + math.pow(N, - 2.) * sum2
+    out = torch.sqrt(p1 - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
 
 def L2per(x):
@@ -131,7 +131,7 @@ def L2per(x):
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
-    out = - math.pow(3., -dim) + math.pow(N, - 2.) * sum2
+    out = torch.sqrt(- math.pow(3., -dim) + math.pow(N, - 2.) * sum2)
     return out
 
 
@@ -145,7 +145,7 @@ def L2per_weighted(x, gamma):
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
-    out = - p1 + math.pow(N, - 2.) * sum2
+    out = torch.sqrt(- p1 + math.pow(N, - 2.) * sum2)
     return out
 
 
@@ -161,7 +161,7 @@ def L2sym(x):
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
-    out = math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2
+    out = torch.sqrt(math.pow(12., -dim) - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
 
 
@@ -179,7 +179,7 @@ def L2sym_weighted(x, gamma):
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
-    out = p1 - (2. / N) * sum1 + math.pow(N, - 2.) * sum2
+    out = torch.sqrt(p1 - (2. / N) * sum1 + math.pow(N, - 2.) * sum2)
     return out
     
 
