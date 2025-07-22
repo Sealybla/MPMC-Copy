@@ -32,11 +32,9 @@ def train(args):
 
         if epoch % 100 == 0:
             y = X.clone().detach()
-            
-            # Get the same loss function used for training
             loss_func = globals()[args.loss_fn]
 
-            # Check if the function is weighted and pass the weights if it is
+            #  take out of loop!!!
             if 'weighted' in args.loss_fn:
                 batched_discrepancies = loss_func(y, args.weights)
             else:

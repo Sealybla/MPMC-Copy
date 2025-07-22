@@ -9,10 +9,10 @@ from pathlib import Path
 
 #change path 
 xs = torch.rand(64, 2)
-data = np.load(r'D:\work\Research\IITSURE\coding\MPMC\outputs\dim_2\nsamples_16\nhid_64\LfL2dis.npy')
+data =np.load('/Users/alk/Documents/GitHub/MPMC-Copy/outputs/dim_2/nsamples_100/nhid_32/LfL2avgs.npy')
 
 # plt.scatter(data[0,:,0], data[0,:,1], color = 'blue') 
-# plt.scatter(xs[:,0], xs[:,1], color = 'blue') 
+# plt.scatter(xs[:,S0], xs[:,1], color = 'blue') 
 # plt.title("2D Points")
 # plt.xlabel("X")
 # plt.ylabel("Y")
@@ -23,12 +23,14 @@ data = np.load(r'D:\work\Research\IITSURE\coding\MPMC\outputs\dim_2\nsamples_16\
 #calculate dispersion:
  
 
+print (data.shape)
+
 #/Users/alk/Documents/GitHub/MPMC-Copy/outputs/dim_2
-losses = ['LfL2mix']
-configs = [[16,32], [32,32], [64,32], [128,32], [256,32]]
+"""losses = ['LfL2avgs']
+configs = [[256,32]]
 for loss in losses:
     for nsamples, nhid in configs:
-        path = fr'D:\work\Research\IITSURE\coding\MPMC_Copy\outputs\dim_2\nsamples_{nsamples}\nhid_{nhid}\{loss}.npy'
+        path = fr'/Users/alk/Documents/GitHub/MPMC-Copy/outputs/dim_2/nsamples_{nsamples}/nhid_{nhid}/{loss}.npy'
         data = np.load(path)
         Path('dispersion/data').mkdir(parents=True, exist_ok=True)
         Path('dispersion/pics').mkdir(parents=True, exist_ok=True)
@@ -41,7 +43,7 @@ for loss in losses:
         f.write(f"Box: {best_box}\n\n")
 
         f.close()
-
+"""
 
 #calculate l_extreme for random points (16):
 # print(Linfextr(torch.from_numpy(data)))
