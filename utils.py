@@ -141,7 +141,7 @@ def L2per_weighted(x, gamma):
 
     p1 = torch.prod(1 + gamma/3)
 
-    prod2 = 1 + gamma[None, None, None, :] * 0.5 - torch.abs(x[: ,: ,None ,: ] - x[: ,None ,: ,: ]) + (x[: ,: ,None ,: ] - x[: ,None ,: ,: ])**2
+    prod2 = 1 + gamma[None, None, None, :] * (0.5 - torch.abs(x[: ,: ,None ,: ] - x[: ,None ,: ,: ]) + (x[: ,: ,None ,: ] - x[: ,None ,: ,: ])**2)
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 
