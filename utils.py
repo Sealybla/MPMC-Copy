@@ -116,7 +116,7 @@ def L2ext_weighted(x, gamma):
     prod1 = torch.prod(prod1, dim = 2)
     sum1 = torch.sum(prod1, dim = 1)
 
-    prod2 = 1 + gamma[None, None, None, :] * torch.min(x[: ,: ,None ,: ], x[: ,None ,: ,: ]) - x[: ,: ,None ,: ] * x[: ,None ,: ,: ]
+    prod2 = 1 + gamma[None, None, None, :] * (torch.min(x[: ,: ,None ,: ], x[: ,None ,: ,: ]) - x[: ,: ,None ,: ] * x[: ,None ,: ,: ])
     product = torch.prod(prod2, dim = 3)
     sum2 = torch.sum(product, dim = (1,2))
 

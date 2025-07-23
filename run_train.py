@@ -69,11 +69,10 @@ def train(args):
 
 
 if __name__ == '__main__':
-    #me: 'L2dis_weighted', 'L2ctr_weighted', 'L2ext_weighted'
-    #you/Lijia: 'L2per_weighted', 'L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted'
-
+    #me: 'L2ext_weighted'
+    #you/Lijia: 'L2per_weighted', 'L2sym_weighted'
     # loss_functions = ['L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted']
-    loss_functions = ['L2per_weighted']
+    loss_functions = ['L2ext_weighted']
 
     for N in tqdm([16, 32, 64, 128, 256], desc='Sample Sizes'):
         for nh in tqdm([32], desc="Hidden Units", leave=False):
