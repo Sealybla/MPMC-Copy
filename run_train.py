@@ -20,8 +20,8 @@ def train(args):
     start_reduce = 100000
     reduce_point = 10
 
-    Path('results/dim_' + str(args.dim) + '/nsamples_'+str(args.nsamples)+'/nhid_'+str(args.nhid)).mkdir(parents=True, exist_ok=True)
-    Path('outputs/dim_' + str(args.dim) + '/nsamples_'+str(args.nsamples)+'/nhid_'+str(args.nhid)).mkdir(parents=True, exist_ok=True)
+    Path('results/dim_' + str(args.dim) + '/nsamples_'+str(args.nsamples)+'/nbatches_'+str(args.nbatch)+'/nhid_'+str(args.nhid)).mkdir(parents=True, exist_ok=True)
+    Path('outputs/dim_' + str(args.dim) + '/nsamples_'+str(args.nsamples)+'/nbatches_'+str(args.nbatch)+'/nhid_'+str(args.nhid)).mkdir(parents=True, exist_ok=True)
 
     for epoch in tqdm(range(args.epochs), desc=f"Training: N={args.nsamples}, nhid={args.nhid}, loss={args.loss_fn}"):
         model.train()
@@ -44,11 +44,11 @@ def train(args):
 
             if min_discrepancy < best_loss:
                 best_loss = min_discrepancy
-                f = open('results/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+'/nhid_'+str(args.nhid) + '/Lf'+str(args.loss_fn) + '.txt', 'a')
+                f = open('results/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+'/nbatches_'+str(args.nbatch)+'/nhid_'+str(args.nhid) + '/Lf'+str(args.loss_fn) + '.txt', 'a')
                 f.write(str(best_loss) + '\n')
                 f.close()
 
-                PATH = 'outputs/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+ '/nhid_' +str(args.nhid)+ '/Lf'+str(args.loss_fn) + '.npy'
+                PATH = 'outputs/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+ '/nbatches_'+str(args.nbatch)+ '/nhid_' +str(args.nhid)+ '/Lf'+str(args.loss_fn) + '.npy'
                 y = y.detach().cpu().numpy()
                 np.save(PATH,y)
 
@@ -62,7 +62,7 @@ def train(args):
                     param_group['lr'] = args.lr
 
             if (args.lr < 1e-6):
-                f = open('results/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+'/nhid_'+str(args.nhid) + '/Lf'+str(args.loss_fn) + '.txt', 'a')
+                f = open('results/dim_'+str(args.dim)+'/nsamples_'+str(args.nsamples)+'/nbatches_'+str(args.nbatch)+ '/nhid_'+str(args.nhid) + '/Lf'+str(args.loss_fn) + '.txt', 'a')
                 f.write('### epochs: '+str(epoch) + '\n')
                 f.close()
                 break
@@ -72,9 +72,9 @@ if __name__ == '__main__':
     #me: 'L2ext_weighted'
     #you/Lijia: 'L2per_weighted', 'L2sym_weighted'
     # loss_functions = ['L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted']
-    loss_functions = ['L2ext_weighted']
-
-    for N in tqdm([16, 32, 64, 128, 256], desc='Sample Sizes'):
+    loss_functions = ['L2mix_weighted']
+# , 32, 64, 128, 256
+    for N in tqdm([16], desc='Sample Sizes'):
         for nh in tqdm([32], desc="Hidden Units", leave=False):
             for l in tqdm(loss_functions, desc="Loss Fn", leave=False):
                 dim = 52
@@ -88,7 +88,7 @@ if __name__ == '__main__':
                     'nlayers': 3,
                     'weight_decay': 1e-6,
                     'nhid': nh,
-                    'nbatch': 1,
+                    'nbatch': 16,
                     'epochs': 200000,
                     'start_reduce': 100000,
                     'radius': 0.35,
