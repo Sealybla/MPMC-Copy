@@ -9,7 +9,7 @@ from pathlib import Path
 
 #change path 
 xs = torch.rand(64, 2)
-data =np.load(r'D:\work\Research\IITSURE\Coding\MPMC_Copy\outputs\dim_52\nsamples_16\nbatches_16\nhid_32\LfL2sym_weighted.npy')
+data =np.load(r'D:\work\Research\IITSURE\Coding\MPMC_Copy\outputs\dim_52\nsamples_32\nbatches_16\nhid_32\LfL2sym_weighted.npy')
 
 # plt.scatter(data[0,:,0], data[0,:,1], color = 'blue') 
 # plt.scatter(xs[:,S0], xs[:,1], color = 'blue') 

@@ -72,9 +72,8 @@ if __name__ == '__main__':
     #me: 'L2ext_weighted'
     #you/Lijia: 'L2per_weighted', 'L2sym_weighted'
     # loss_functions = ['L2sym_weighted', 'L2ags_weighted', 'L2mix_weighted']
-    loss_functions = ['L2mix_weighted']
-# , 32, 64, 128, 256
-    for N in tqdm([16], desc='Sample Sizes'):
+    loss_functions = ['L2dis_weighted']
+    for N in tqdm([256], desc='Sample Sizes'):
         for nh in tqdm([32], desc="Hidden Units", leave=False):
             for l in tqdm(loss_functions, desc="Loss Fn", leave=False):
                 dim = 52
